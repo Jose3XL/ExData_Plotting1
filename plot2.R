@@ -1,24 +1,26 @@
-## Load dplyr
-library(dplyr)
+##Set WD
+setwd("~/R/Coursera/Exploratory Data Analysis/-4_Exploratory_Data_Analysis/ExData_Plotting1/data")
 
-## read data
-dt <- tbl_df(read.table("household_power_consumption.txt", header=TRUE, 
-                        sep= ";", na.strings = c("?",""))) 
-## Convert date and time data
-dt$Time<-strptime(paste(dt$Date,dt$Time),'%d/%m/%Y %H:%M:%S')
-dt$Date<-as.Date(dt$Date,'%d/%m/%Y')
+## Read Data
+Data <- read.table("household_power_consumption.txt",sep=";",header=TRUE)
 
-## Subset data to the selected dates
-dtSubsetData<-subset(dt, Date>='2007-02-01' & Date<= '2007-02-02')
+## Change class of Date column
+Data$Date <- (as.Date(Data$Date,"%d/%m/%Y"))
 
-## Create png plot2
-png(file = "plot2.png", width = 480, height = 480)
+## Subset Data
+SubsetData <- subset(Data, Date == "2007-02-01" | Date =="2007-02-02")
 
-##Create histogram plot2
-hist(data$Global_active_power, col = "red", main = "Global Active Power", 
-     xlab = "Global Active Power (kilowatts)", ylab = "Frequency")
+## Change the class of Global_active_power column
+SubsetData$Global_active_power <- as.numeric(as.character(SubsetData$Global_active_power))
+
+## Form DateTime column
+SubsetData$DateTime <- strptime(paste(SubsetData$Date, SubsetData$Time, sep=" "),"%Y-%m-%d %T")
+
+## Plot
+png("plot2.png", width = 480, height = 480)
+
+## Creating plot2
+plot(SubsetData$DateTime,SubsetData$Global_active_power,type="l",xlab="",ylab="Global Active Power (in kilowatts)")
 
 ##close the PNG device
 dev.off()
-
-

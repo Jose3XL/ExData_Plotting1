@@ -1,9 +1,6 @@
 ##Set WD
 setwd("~/R/Coursera/Exploratory Data Analysis/-4_Exploratory_Data_Analysis/ExData_Plotting1/data")
 
-## Load dplyr
-library(dplyr)
-
 ## Read data
 Data <- tbl_df(read.table("household_power_consumption.txt", header=TRUE, 
                         sep= ";", na.strings = c("?",""))) 
